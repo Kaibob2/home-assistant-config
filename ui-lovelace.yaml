@@ -326,8 +326,8 @@ decluttering_templates:
       - points_per_hour: 1
       # Size (You will have to play with these to get it right
       # for your own particular setup)
-      - font_size: 71
-      - height: 122
+      - font_size: 55
+      - height: 70
       # Graph Type (Choice: bar/line)
       - graph: line
       - line_color: red
@@ -387,6 +387,11 @@ views:
               - content: "Salon"
       - type: horizontal-stack
         cards:
+          - type: 'custom:button-card'
+            color_type: blank-card
+            styles:
+              card:
+                - width: 5px
           - type: custom:decluttering-card
             template: mini-graph
             variables:
@@ -414,8 +419,50 @@ views:
               - decimals: 0
               - entities:
                 - sensor.illumination_salon
+          - type: 'custom:button-card'
+            color_type: blank-card
+            styles:
+              card:
+                - width: 5px
       - type: horizontal-stack
         cards:
+          - type: 'custom:button-card'
+            color_type: blank-card
+            styles:
+              card:
+                - width: 5px
+          - type: custom:decluttering-card
+            template: button
+            variables:
+              - entity: binary_sensor.motion_salon
+              - label: "[[[ if (entity.state == 'on') return 'wykryto'; else if (entity.state == 'off') return 'brak'; else return 'niedostępny']]]"
+          - type: custom:decluttering-card
+            template: button
+            variables:
+              - entity: binary_sensor.motion_salon
+              - label: "[[[ if (entity.state == 'on') return 'wykryto'; else if (entity.state == 'off') return 'brak'; else return 'niedostępny']]]"
+          - type: custom:decluttering-card
+            template: button
+            variables:
+              - entity: binary_sensor.motion_salon
+              - label: "[[[ if (entity.state == 'on') return 'wykryto'; else if (entity.state == 'off') return 'brak'; else return 'niedostępny']]]"
+          - type: custom:decluttering-card
+            template: button
+            variables:
+              - entity: binary_sensor.motion_salon
+              - label: "[[[ if (entity.state == 'on') return 'wykryto'; else if (entity.state == 'off') return 'brak'; else return 'niedostępny']]]"
+          - type: 'custom:button-card'
+            color_type: blank-card
+            styles:
+              card:
+                - width: 5px
+      - type: horizontal-stack
+        cards:
+          - type: 'custom:button-card'
+            color_type: blank-card
+            styles:
+              card:
+                - width: 5px
           - type: custom:decluttering-card
             template: button
             variables:
@@ -436,7 +483,31 @@ views:
             variables:
               - entity: fan.humidifier_salon
               - label: "[[[ if (entity.state == 'on') return 'włączony'; else if (entity.state == 'off') return 'wyłączony'; else return 'niedostępny']]]"
-              - notification: "[[[ return states['sensor.humidifier_water_level'].state + '%' ]]]"
+          - type: 'custom:button-card'
+            color_type: blank-card
+            styles:
+              card:
+                - width: 5px
+      - type: horizontal-stack
+        cards:
+          - type: 'custom:button-card'
+            color_type: blank-card
+            styles:
+              card:
+                - width: 5px
+          - type: picture-glance
+            title: "Salon"
+            entities:
+              - switch.camera_move_left
+              - switch.camera_move_right
+              - switch.camera_move_up
+              - switch.camera_move_down
+            camera_image: camera.salon
+          - type: 'custom:button-card'
+            color_type: blank-card
+            styles:
+              card:
+                - width: 5px
 
       # - type: horizontal-stack
       #   cards:
