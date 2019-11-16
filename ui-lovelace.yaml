@@ -25,6 +25,24 @@ resources:
     type: module
 
 decluttering_templates:
+  header:
+    default:
+      # Name/Title
+      - content: content
+    # Card Config
+    # Do NOT change this unless you know what you are doing!
+    card:
+      type: markdown
+      style: |
+        ha-card {
+          box-shadow: none;
+          height: 33px;
+          background: none;
+          padding: 0px 10px;
+          color: var(--header-color);
+        }
+      content: '[[content]]'
+
   button:
     default:
       # Button Options
@@ -32,22 +50,10 @@ decluttering_templates:
       - aspect_ratio: 1/1
       - opacity: 0.5
       - opacity_on: 1.0
-
-      # Theme Options (if you do not wish to use my provided theme-selector please change the following config to the config that is commented!)
-      # - border-radius: "[[[ return states['input_select.border_radius'].state ]]]"
-      - ha-card-background: var(--card-color-off)
-      # - box-shadow: "[[[ return states['input_select.box_shadow'].state ]]]"
-
-    # - border-radius: var(--border-radius)
-    # - ha-card-background: var(--card-color-off)
-    # - box-shadow: none
-
       # Name
-      - name: # Leave this empty if you want to be able to use names defined in customize.yaml (default is empty!)
-
+      - name:
       # Label
       - label: '&nbsp;'
-
       # Icon Options
       - color: auto
       - size: 25%
@@ -58,14 +64,12 @@ decluttering_templates:
       - off_variable: spin
       - off_spin: false
       - icon: # Leave this empty if you want to be able to use icons defined in customize.yaml (default is empty!)
-
       # Show Options
       - show_name: true
-      - show_state: true
+      - show_state: false
       - show_label: true
       - show_icon: true
       - show_last_changed: false
-
       # Tap and Hold Actions
       - tap_action:
           action: toggle
@@ -73,7 +77,6 @@ decluttering_templates:
       - hold_action:
           action: more-info
           haptic: heavy
-
       # Button 'Off' Options
       - off_icon_color: var(--icon-color-off)
       - off_name_color: var(--name-color-off)
@@ -95,7 +98,7 @@ decluttering_templates:
 
       # Grid
       - grid:
-          - grid-template-areas: '"i" "n" "s" "l"'
+          - grid-template-areas: '"i" "n" "l" "s"'
           - grid-template-columns: 1fr
           - grid-template-rows: 1fr min-content min-content
 
@@ -186,10 +189,6 @@ decluttering_templates:
             card:
               - --ha-card-background: '[[on_card_color]]'
               - opacity: '[[opacity_on]]'
-              # - box-shadow: none
-              # - border-style: solid
-              # - border-width: 1px
-              # - border-color: black
             name:
               - color: '[[on_name_color]]'
             state:
@@ -202,6 +201,7 @@ decluttering_templates:
           '[[off_variable]]': '[[off_spin]]'
           styles:
             card:
+              - --ha-card-background: 'white'
               - opacity: '[[opacity]]'
             icon:
               - color: '[[off_icon_color]]'
@@ -315,7 +315,60 @@ decluttering_templates:
               - font-weight: '[[label_font_weight]]'
             lock:
               - color: --var(--lock-color-off)
-
+  mini-graph:
+    default:
+      # Name (Name of the card)
+      - name:
+      # Time Management (set hour24 to true if you want 24 hour
+      # notation)
+      - hours_to_show: 48
+      - hour24: true
+      - points_per_hour: 1
+      # Size (You will have to play with these to get it right
+      # for your own particular setup)
+      - font_size: 71
+      - height: 122
+      # Graph Type (Choice: bar/line)
+      - graph: line
+      - line_color: red
+      - line_width: 5
+      - decimals: 1
+      - fill: fade
+      # Show Min/Max (Warning Resource Heavy)
+      - extrema: false
+      - average: false
+      # Animations
+      - animate: true
+      # Icon Show/Hide
+      - icon: false
+    # Do NOT change this unless you know what you are doing!
+    card:
+      type: 'custom:mini-graph-card'
+      style: |
+        ha-card {
+          --paper-item-icon-color: var(--icon-color-off);
+          font-weight: bold;
+        }
+      entities: '[[entities]]'
+      hours_to_show: '[[hours_to_show]]'
+      points_per_hour: '[[points_per_hour]]'
+      line_width: '[[line_width]]'
+      hour24: '[[hour24]]'
+      animate: '[[animate]]'
+      decimals: '[[decimals]]'
+      font_size: '[[font_size]]'
+      height: '[[height]]'
+      show:
+        graph: '[[graph]]'
+        icon: '[[icon]]'
+        fill: '[[fill]]'
+        extrema: '[[extrema]]'
+        average: '[[average]]'
+        points: false
+        labels: false
+      font_size_header: 9
+      line_color: '[[line_color]]'
+      name: '[[name]]'
 
 background: "#e5e5e5"
 
@@ -326,176 +379,231 @@ views:
     title: "Pomieszczenia"
     path: home
     cards:
+      - type: vertical-stack
+        cards:
+          - type: custom:decluttering-card
+            template: header
+            variables:
+              - content: "Salon"
+      - type: horizontal-stack
+        cards:
+          - type: custom:decluttering-card
+            template: mini-graph
+            variables:
+              - line_color: "#ef5350"
+              - entities:
+                - sensor.temperature_salon
+          - type: custom:decluttering-card
+            template: mini-graph
+            variables:
+              - line_color: "#36a2eb"
+              - entities:
+                - sensor.humidity_salon
+          - type: custom:decluttering-card
+            template: mini-graph
+            variables:
+              - line_color: "#8bc34a"
+              - decimals: 0
+              - entities:
+                - sensor.co2_salon
+          - type: custom:decluttering-card
+            template: mini-graph
+            variables:
+              - name: "Oświetlenie"
+              - line_color: "#ffce57"
+              - decimals: 0
+              - entities:
+                - sensor.illumination_salon
       - type: horizontal-stack
         cards:
           - type: custom:decluttering-card
             template: button
             variables:
               - entity: light.lamp_salon
-          - type: custom:button-card
-            entity: light.lamp_salon
-            show_state: false
-            show_label: true
-            hold_action:
-              action: more-info
-            label: >
-              [[[
-                if (entity.state == 'on')
-                  return 'włączona';
-                else if (entity.state == 'off')
-                  return 'wyłączona';
-                else
-                  return 'niedostępna';
-              ]]]
-            styles:
-              card:
-                - width: 100px
-                - height: 100px
-              label:
-                - font-size: 11px
-                - font-family: Helvetica
-                - padding: 0px 10px
-                - justify-self: start
-                - color: var(--label-color-off)
-              grid:
-                - grid-template-areas: '"i" "n" "l"'
-                - grid-template-columns: 1fr
-                - grid-template-rows: 1fr min-content min-content
-              img_cell:
-                - align-self: start
-                - text-align: start
-              name:
-                - justify-self: start
-                - padding-left: 10px
-                - font-weight: bold
-                - font-size: 13px
-              state:
-                - font-size: 11px
-                - font-family: Helvetica
-                - padding: 0px 10px
-                - justify-self: start
-                - font-weight: bold
-                - padding-left: 10px
-            state:
-              - value: 'unavailable'
-                styles:
-                  card:
-                    - filter: opacity(20%)
-                  icon:
-                    - filter: grayscale(100%)
-          - type: custom:button-card
-            entity: light.bulbs_salon
-            show_state: false
-            show_label: true
-            hold_action:
-              action: more-info
-            label: >
-              [[[
-                if (entity.state == 'on')
-                  return 'włączone';
-                else if (entity.state == 'off')
-                  return 'wyłączone';
-                else
-                  return 'niedostępne';
-              ]]]
-            styles:
-              card:
-                - width: 100px
-                - height: 100px
-              label:
-                - font-size: 11px
-                - font-family: Helvetica
-                - padding: 0px 10px
-                - justify-self: start
-                - color: var(--label-color-off)
-              grid:
-                - grid-template-areas: '"i" "n" "l"'
-                - grid-template-columns: 1fr
-                - grid-template-rows: 1fr min-content min-content
-              img_cell:
-                - align-self: start
-                - text-align: start
-              name:
-                - justify-self: start
-                - padding-left: 10px
-                - font-weight: bold
-                - font-size: 13px
-              state:
-                - font-size: 11px
-                - font-family: Helvetica
-                - padding: 0px 10px
-                - justify-self: start
-                - font-weight: bold
-                - padding-left: 10px
-            state:
-              - value: 'unavailable'
-                styles:
-                  card:
-                    - filter: opacity(20%)
-                  icon:
-                    - filter: grayscale(100%)
-          - type: custom:button-card
-            entity: light.leds_salon
-            show_state: false
-            show_label: true
-            hold_action:
-              action: more-info
-            label: >
-              [[[
-                if (entity.state == 'on')
-                  return 'włączone';
-                else if (entity.state == 'off')
-                  return 'wyłączone';
-                else
-                  return 'niedostępne';
-              ]]]
-            styles:
-              card:
-                - width: 100px
-                - height: 100px
-              label:
-                - font-size: 11px
-                - font-family: Helvetica
-                - padding: 0px 10px
-                - justify-self: start
-                - color: var(--label-color-off)
-              grid:
-                - grid-template-areas: '"i" "n" "l"'
-                - grid-template-columns: 1fr
-                - grid-template-rows: 1fr min-content min-content
-              img_cell:
-                - align-self: start
-                - text-align: start
-              name:
-                - justify-self: start
-                - padding-left: 10px
-                - font-weight: bold
-                - font-size: 13px
-              state:
-                - font-size: 11px
-                - font-family: Helvetica
-                - padding: 0px 10px
-                - justify-self: start
-                - font-weight: bold
-                - padding-left: 10px
-            state:
-              - value: 'unavailable'
-                styles:
-                  card:
-                    - filter: opacity(20%)
-                  icon:
-                    - filter: grayscale(100%)
-          - type: 'custom:mini-graph-card'
-            entities:
-              - sensor.temperature_salon
-            hours_to_show: 24
-            hour24: true
-            animate: true
-            decimals: 1
-            font_size: 10
-            font_size_header: 9
-            height: 80
-            show:
-              icon: false
+              - label: "[[[ if (entity.state == 'on') return 'włączona'; else if (entity.state == 'off') return 'wyłączona'; else return 'niedostępna']]]"
+          - type: custom:decluttering-card
+            template: button
+            variables:
+              - entity: light.bulbs_salon
+              - label: "[[[ if (entity.state == 'on') return 'włączone'; else if (entity.state == 'off') return 'wyłączone'; else return 'niedostępne']]]"
+          - type: custom:decluttering-card
+            template: button
+            variables:
+              - entity: light.leds_salon
+              - label: "[[[ if (entity.state == 'on') return 'włączone'; else if (entity.state == 'off') return 'wyłączone'; else return 'niedostępne']]]"
+          - type: custom:decluttering-card
+            template: button
+            variables:
+              - entity: fan.humidifier_salon
+              - label: "[[[ if (entity.state == 'on') return 'włączony'; else if (entity.state == 'off') return 'wyłączony'; else return 'niedostępny']]]"
+              - notification: "[[[ return states['sensor.humidifier_water_level'].state + '%' ]]]"
+
+      # - type: horizontal-stack
+      #   cards:
+      #     - type: custom:button-card
+      #       entity: light.lamp_salon
+      #       show_state: false
+      #       show_label: true
+      #       hold_action:
+      #         action: more-info
+      #       label: >
+      #         [[[
+      #           if (entity.state == 'on')
+      #             return 'włączona';
+      #           else if (entity.state == 'off')
+      #             return 'wyłączona';
+      #           else
+      #             return 'niedostępna';
+      #         ]]]
+      #       styles:
+      #         card:
+      #           - width: 100px
+      #           - height: 100px
+      #         label:
+      #           - font-size: 11px
+      #           - font-family: Helvetica
+      #           - padding: 0px 10px
+      #           - justify-self: start
+      #           - color: var(--label-color-off)
+      #         grid:
+      #           - grid-template-areas: '"i" "n" "l"'
+      #           - grid-template-columns: 1fr
+      #           - grid-template-rows: 1fr min-content min-content
+      #         img_cell:
+      #           - align-self: start
+      #           - text-align: start
+      #         name:
+      #           - justify-self: start
+      #           - padding-left: 10px
+      #           - font-weight: bold
+      #           - font-size: 13px
+      #         state:
+      #           - font-size: 11px
+      #           - font-family: Helvetica
+      #           - padding: 0px 10px
+      #           - justify-self: start
+      #           - font-weight: bold
+      #           - padding-left: 10px
+      #       state:
+      #         - value: 'unavailable'
+      #           styles:
+      #             card:
+      #               - filter: opacity(20%)
+      #             icon:
+      #               - filter: grayscale(100%)
+      #     - type: custom:button-card
+      #       entity: light.bulbs_salon
+      #       show_state: false
+      #       show_label: true
+      #       hold_action:
+      #         action: more-info
+      #       label: >
+      #         [[[
+      #           if (entity.state == 'on')
+      #             return 'włączone';
+      #           else if (entity.state == 'off')
+      #             return 'wyłączone';
+      #           else
+      #             return 'niedostępne';
+      #         ]]]
+      #       styles:
+      #         card:
+      #           - width: 100px
+      #           - height: 100px
+      #         label:
+      #           - font-size: 11px
+      #           - font-family: Helvetica
+      #           - padding: 0px 10px
+      #           - justify-self: start
+      #           - color: var(--label-color-off)
+      #         grid:
+      #           - grid-template-areas: '"i" "n" "l"'
+      #           - grid-template-columns: 1fr
+      #           - grid-template-rows: 1fr min-content min-content
+      #         img_cell:
+      #           - align-self: start
+      #           - text-align: start
+      #         name:
+      #           - justify-self: start
+      #           - padding-left: 10px
+      #           - font-weight: bold
+      #           - font-size: 13px
+      #         state:
+      #           - font-size: 11px
+      #           - font-family: Helvetica
+      #           - padding: 0px 10px
+      #           - justify-self: start
+      #           - font-weight: bold
+      #           - padding-left: 10px
+      #       state:
+      #         - value: 'unavailable'
+      #           styles:
+      #             card:
+      #               - filter: opacity(20%)
+      #             icon:
+      #               - filter: grayscale(100%)
+      #     - type: custom:button-card
+      #       entity: light.leds_salon
+      #       show_state: false
+      #       show_label: true
+      #       hold_action:
+      #         action: more-info
+      #       label: >
+      #         [[[
+      #           if (entity.state == 'on')
+      #             return 'włączone';
+      #           else if (entity.state == 'off')
+      #             return 'wyłączone';
+      #           else
+      #             return 'niedostępne';
+      #         ]]]
+      #       styles:
+      #         card:
+      #           - width: 100px
+      #           - height: 100px
+      #         label:
+      #           - font-size: 11px
+      #           - font-family: Helvetica
+      #           - padding: 0px 10px
+      #           - justify-self: start
+      #           - color: var(--label-color-off)
+      #         grid:
+      #           - grid-template-areas: '"i" "n" "l"'
+      #           - grid-template-columns: 1fr
+      #           - grid-template-rows: 1fr min-content min-content
+      #         img_cell:
+      #           - align-self: start
+      #           - text-align: start
+      #         name:
+      #           - justify-self: start
+      #           - padding-left: 10px
+      #           - font-weight: bold
+      #           - font-size: 13px
+      #         state:
+      #           - font-size: 11px
+      #           - font-family: Helvetica
+      #           - padding: 0px 10px
+      #           - justify-self: start
+      #           - font-weight: bold
+      #           - padding-left: 10px
+      #       state:
+      #         - value: 'unavailable'
+      #           styles:
+      #             card:
+      #               - filter: opacity(20%)
+      #             icon:
+      #               - filter: grayscale(100%)
+      #     - type: 'custom:mini-graph-card'
+      #       entities:
+      #         - sensor.temperature_salon
+      #       hours_to_show: 24
+      #       hour24: true
+      #       animate: true
+      #       decimals: 1
+      #       font_size: 10
+      #       font_size_header: 9
+      #       height: 80
+      #       show:
+      #         icon: false
 
 
