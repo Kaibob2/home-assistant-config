@@ -816,3 +816,174 @@ views:
                 entities:
                   - script.reboot_router
                   - input_select.log_level
+              - type: horizontal-stack
+                cards:
+                  - type: custom:button-card
+                    entity: light.lamp_salon
+                    show_state: false
+                    show_label: true
+                    hold_action:
+                      action: more-info
+                    label: >
+                      [[[
+                        if (entity.state == 'on')
+                          return 'włączona';
+                        else if (entity.state == 'off')
+                          return 'wyłączona';
+                        else
+                          return 'niedostępna';
+                      ]]]
+                    styles:
+                      card:
+                        - width: 100px
+                        - height: 100px
+                      label:
+                        - font-size: 11px
+                        - font-family: Helvetica
+                        - padding: 0px 10px
+                        - justify-self: start
+                        - color: var(--label-color-off)
+                      grid:
+                        - grid-template-areas: '"i" "n" "l"'
+                        - grid-template-columns: 1fr
+                        - grid-template-rows: 1fr min-content min-content
+                      img_cell:
+                        - align-self: start
+                        - text-align: start
+                      name:
+                        - justify-self: start
+                        - padding-left: 10px
+                        - font-weight: bold
+                        - font-size: 13px
+                      state:
+                        - font-size: 11px
+                        - font-family: Helvetica
+                        - padding: 0px 10px
+                        - justify-self: start
+                        - font-weight: bold
+                        - padding-left: 10px
+                    state:
+                      - value: 'unavailable'
+                        styles:
+                          card:
+                            - filter: opacity(20%)
+                          icon:
+                            - filter: grayscale(100%)
+                  - type: custom:button-card
+                    entity: light.bulbs_salon
+                    show_state: false
+                    show_label: true
+                    hold_action:
+                      action: more-info
+                    label: >
+                      [[[
+                        if (entity.state == 'on')
+                          return 'włączone';
+                        else if (entity.state == 'off')
+                          return 'wyłączone';
+                        else
+                          return 'niedostępne';
+                      ]]]
+                    styles:
+                      card:
+                        - width: 100px
+                        - height: 100px
+                      label:
+                        - font-size: 11px
+                        - font-family: Helvetica
+                        - padding: 0px 10px
+                        - justify-self: start
+                        - color: var(--label-color-off)
+                      grid:
+                        - grid-template-areas: '"i" "n" "l"'
+                        - grid-template-columns: 1fr
+                        - grid-template-rows: 1fr min-content min-content
+                      img_cell:
+                        - align-self: start
+                        - text-align: start
+                      name:
+                        - justify-self: start
+                        - padding-left: 10px
+                        - font-weight: bold
+                        - font-size: 13px
+                      state:
+                        - font-size: 11px
+                        - font-family: Helvetica
+                        - padding: 0px 10px
+                        - justify-self: start
+                        - font-weight: bold
+                        - padding-left: 10px
+                    state:
+                      - value: 'unavailable'
+                        styles:
+                          card:
+                            - filter: opacity(20%)
+                          icon:
+                            - filter: grayscale(100%)
+                  - type: custom:button-card
+                    entity: light.leds_salon
+                    show_state: false
+                    show_label: true
+                    hold_action:
+                      action: more-info
+                    label: >
+                      [[[
+                        if (entity.state == 'on')
+                          return 'włączone';
+                        else if (entity.state == 'off')
+                          return 'wyłączone';
+                        else
+                          return 'niedostępne';
+                      ]]]
+                    styles:
+                      card:
+                        - width: 100px
+                        - height: 100px
+                      label:
+                        - font-size: 11px
+                        - font-family: Helvetica
+                        - padding: 0px 10px
+                        - justify-self: start
+                        - color: var(--label-color-off)
+                      grid:
+                        - grid-template-areas: '"i" "n" "l"'
+                        - grid-template-columns: 1fr
+                        - grid-template-rows: 1fr min-content min-content
+                      img_cell:
+                        - align-self: start
+                        - text-align: start
+                      name:
+                        - justify-self: start
+                        - padding-left: 10px
+                        - font-weight: bold
+                        - font-size: 13px
+                      state:
+                        - font-size: 11px
+                        - font-family: Helvetica
+                        - padding: 0px 10px
+                        - justify-self: start
+                        - font-weight: bold
+                        - padding-left: 10px
+                    state:
+                      - value: 'unavailable'
+                        styles:
+                          card:
+                            - filter: opacity(20%)
+                          icon:
+                            - filter: grayscale(100%)
+
+
+                  - type: 'custom:mini-graph-card'
+                    entities:
+                      - sensor.temperature_salon
+                    hours_to_show: 24
+                    hour24: true
+                    animate: true
+                    decimals: 1
+                    font_size: 10
+                    font_size_header: 9
+                    height: 80
+                    show:
+                      icon: false
+
+
