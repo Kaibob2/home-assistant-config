@@ -327,7 +327,7 @@ decluttering_templates:
       # Size (You will have to play with these to get it right
       # for your own particular setup)
       - font_size: 55
-      - height: 70
+      - height: 44
       # Graph Type (Choice: bar/line)
       - graph: line
       - line_color: red
@@ -439,18 +439,18 @@ views:
           - type: custom:decluttering-card
             template: button
             variables:
-              - entity: binary_sensor.motion_salon
-              - label: "[[[ if (entity.state == 'on') return 'wykryto'; else if (entity.state == 'off') return 'brak'; else return 'niedostępny']]]"
-          - type: custom:decluttering-card
-            template: button
-            variables:
-              - entity: binary_sensor.motion_salon
-              - label: "[[[ if (entity.state == 'on') return 'wykryto'; else if (entity.state == 'off') return 'brak'; else return 'niedostępny']]]"
-          - type: custom:decluttering-card
-            template: button
-            variables:
-              - entity: binary_sensor.motion_salon
-              - label: "[[[ if (entity.state == 'on') return 'wykryto'; else if (entity.state == 'off') return 'brak'; else return 'niedostępny']]]"
+              - entity: binary_sensor.window_kuchnia
+              - label: "[[[ if (entity.state == 'on') return 'otwarte'; else if (entity.state == 'off') return 'zamknięte'; else return 'niedostępne']]]"
+          - type: 'custom:button-card'
+            color_type: blank-card
+            styles:
+              card:
+                - aspect_ratio: 1/1
+          - type: 'custom:button-card'
+            color_type: blank-card
+            styles:
+              card:
+                - aspect_ratio: 1/1
           - type: 'custom:button-card'
             color_type: blank-card
             styles:
@@ -478,11 +478,11 @@ views:
             variables:
               - entity: light.leds_salon
               - label: "[[[ if (entity.state == 'on') return 'włączone'; else if (entity.state == 'off') return 'wyłączone'; else return 'niedostępne']]]"
-          - type: custom:decluttering-card
-            template: button
-            variables:
-              - entity: fan.humidifier_salon
-              - label: "[[[ if (entity.state == 'on') return 'włączony'; else if (entity.state == 'off') return 'wyłączony'; else return 'niedostępny']]]"
+          - type: 'custom:button-card'
+            color_type: blank-card
+            styles:
+              card:
+                - aspect_ratio: 1/1
           - type: 'custom:button-card'
             color_type: blank-card
             styles:
@@ -495,19 +495,65 @@ views:
             styles:
               card:
                 - width: 5px
-          - type: picture-glance
-            title: "Salon"
-            entities:
-              - switch.camera_move_left
-              - switch.camera_move_right
-              - switch.camera_move_up
-              - switch.camera_move_down
-            camera_image: camera.salon
+          - type: custom:decluttering-card
+            template: button
+            variables:
+              - entity: climate.thermostat_salon
+              - label: "grzanie"
+          - type: custom:decluttering-card
+            template: button
+            variables:
+              - entity: fan.humidifier_salon
+              - label: "[[[ if (entity.state == 'on') return 'włączony'; else if (entity.state == 'off') return 'wyłączony'; else return 'niedostępny']]]"
+          - type: 'custom:button-card'
+            color_type: blank-card
+            styles:
+              card:
+                - aspect_ratio: 1/1
+          - type: 'custom:button-card'
+            color_type: blank-card
+            styles:
+              card:
+                - aspect_ratio: 1/1
           - type: 'custom:button-card'
             color_type: blank-card
             styles:
               card:
                 - width: 5px
+      - type: horizontal-stack
+        cards:
+          - type: 'custom:button-card'
+            color_type: blank-card
+            styles:
+              card:
+                - width: 5px
+          - type: custom:decluttering-card
+            template: button
+            variables:
+              - entity: media_player.bravia
+              - label: "[[[ if (entity.state == 'on') return 'włączony'; else if (entity.state == 'off') return 'wyłączony'; else return 'niedostępny']]]"
+          - type: custom:decluttering-card
+            template: button
+            variables:
+              - entity: media_player.denon
+              - label: "[[[ if (entity.state == 'on') return 'włączony'; else if (entity.state == 'off') return 'wyłączony'; else return 'niedostępny']]]"
+          - type: custom:decluttering-card
+            template: button
+            variables:
+              - entity: media_player.playstation
+              - label: "[[[ if (entity.state == 'on') return 'włączone'; else if (entity.state == 'off') return 'wyłączone'; else return 'niedostępne']]]"
+          - type: custom:decluttering-card
+            template: button
+            variables:
+              - entity: media_player.echo_plus
+              - label: "[[[ if (entity.state == 'on') return 'włączone'; else if (entity.state == 'off') return 'wyłączone'; else return 'niedostępne']]]"
+          - type: 'custom:button-card'
+            color_type: blank-card
+            styles:
+              card:
+                - width: 5px
+
+
 
       # - type: horizontal-stack
       #   cards:
